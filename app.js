@@ -3,24 +3,40 @@ const images = document.querySelectorAll('.slide img')
 
 const prevbtn = document.getElementById('prev')
 const nextbtn = document.getElementById('next')
+const auto = document.getElementById('auto')
 
 //counter
 let counter = 1;
 const size = images[0].clientWidth; 
 
-nextbtn.addEventListener('click', () => {
-    if (counter >= images.length -1) return;
+
+function moveRight() {
+    if (counter > images.length -1) return;
     slide.style.transition = 'transform 0.4s ease-in-out';
     counter++;
     slide.style.transform = 'translateX(' + (-size * counter) + 'px)';
-});
+}
 
-prevbtn.addEventListener('click', ()=> {
+function moveLeft() {
     if (counter <= 0) return;
     slide.style.transition = 'transform 0.4s ease-in-out';
     counter--;
     slide.style.transform = 'translateX(' + (-size * counter) + 'px)';
+}
+
+nextbtn.addEventListener('click', () => {
+    moveRight();
 });
+
+prevbtn.addEventListener('click', ()=> {
+    moveLeft();
+});
+
+auto.addEventListener('click', () => {
+    setInterval(() => {
+        moveRight()
+    }, 2000);
+})
 
 slide.addEventListener('transitionend', () => {
     if (images[counter].id == 'lastclone') {
